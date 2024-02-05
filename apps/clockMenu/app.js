@@ -781,9 +781,8 @@ Bangle.on('touch', (button, xy) => {
 });
 
 let widgets = false;
-let updateOn = true;
 function update() {
-  if (updateOn) {
+  if (!widgets) {
   if (awake) {
   xOffset += speed;
   yOffset += speed;
@@ -922,16 +921,7 @@ if (autoInvertedColors) {
   // Mettez à jour l'affichage
   g.flip();
 
-  if (widgets) {
-      g.clear();
-    Bangle.setUI({
-  mode : "clock",
-  remove : function() {
-  }});
-   Bangle.loadWidgets();
-   updateOn = false;
-  }
-
+    
   }}
 
 setWatch(function() {
@@ -940,7 +930,6 @@ setWatch(function() {
         widgets = true;
       } else {
         widgets = false;
-        updateOn = true;
       }
     } else { // Si l'alarme sonne, arrêtez-la
       alarmEnabled = false;
@@ -949,9 +938,16 @@ setWatch(function() {
     }
 }, BTN, { repeat: true, edge: "rising"});
 
-setTimeout(function() {
+let widgetsLoaded = false;
+setInterval(function() {
     if (widgets) {
+        if (!widgetsLoaded) {
+          Bangle.loadWidgets();
+          widgetsLoaded = true;
+        }
         Bangle.drawWidgets();
+    }else{
+      widgetsLoaded = false;
     }
 }, 0);
 
