@@ -782,6 +782,7 @@ Bangle.on('touch', (button, xy) => {
   }
 });
 
+let widgets = false;
 function update() {
   if (awake) {
   xOffset += speed;
@@ -918,6 +919,15 @@ if (autoInvertedColors) {
     g.setBgColor(1, 1, 1); // Blanc
   }
 
+  if (widgets) {
+    Bangle.setUI({
+  mode : "clock",
+  remove : function() {
+    
+  }});
+          Bangle.loadWidgets();
+  }
+
   // Mettez à jour l'affichage
   g.flip();
 
@@ -925,12 +935,11 @@ if (autoInvertedColors) {
 
 setWatch(() => {
   if (!isAlarmSounding) { // Vérifie si l'alarme ne sonne pas
-    if (isMenuOpen || isPetMenuOpen) { // Si un des menus est ouvert, on le ferme
-      isMenuOpen = false;
-      isPetMenuOpen = false;
-    } else { // Sinon, on ouvre les widgets
-      Bangle.loadWidgets();
-    }
+      if (!widgets) {
+      widgets = true;
+      }else{
+      widgets = false;
+      }
   } else { // Si l'alarme sonne, arrêtez-la
     alarmEnabled = false;
     Bangle.buzz(0);
