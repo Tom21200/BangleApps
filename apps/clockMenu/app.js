@@ -781,7 +781,9 @@ Bangle.on('touch', (button, xy) => {
 });
 
 let widgets = false;
+let updateOn = true;
 function update() {
+  if (updateOn) {
   if (awake) {
   xOffset += speed;
   yOffset += speed;
@@ -926,9 +928,10 @@ if (autoInvertedColors) {
   remove : function() {
   }});
    Bangle.loadWidgets();
+   updateOn = false;
   }
 
-}
+  }}
 
 setWatch(function() {
     if (!isAlarmSounding) { // Vérifie si l'alarme ne sonne pas
@@ -936,6 +939,7 @@ setWatch(function() {
         widgets = true;
       } else {
         widgets = false;
+        updateOn = true;
       }
     } else { // Si l'alarme sonne, arrêtez-la
       alarmEnabled = false;
