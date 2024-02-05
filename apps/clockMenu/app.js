@@ -923,6 +923,7 @@ if (autoInvertedColors) {
   g.flip();
 
   if (widgets) {
+      g.clear();
     Bangle.setUI({
   mode : "clock",
   remove : function() {
