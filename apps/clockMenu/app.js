@@ -949,5 +949,11 @@ setWatch(function() {
     }
 }, BTN, { repeat: true, edge: "rising"});
 
+setTimeout(function() {
+    if (widgets) {
+        Bangle.drawWidgets();
+    }
+}, 0);
+
 // Mettez à jour continuellement l'affichage
 setInterval(update, 100); // Appel toutes les 100 ms pour une mise à jour plus fréquente des offsets
