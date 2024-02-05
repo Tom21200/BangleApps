@@ -758,12 +758,10 @@ Bangle.on('touch', function (button, xy) {
 
 
 Bangle.on('sleep', function() {
-  console.log("L'écran est en veille !");
   awake = false;
 });
 
 Bangle.on('wake', function() {
-  console.log("L'écran s'est réveillé !");
   awake = true;
 });
 
@@ -837,11 +835,11 @@ function update() {
   }
 
   // Obtenez les informations sur la mémoire
-  const memoryInfo = process.memory();
-  const usedPercent = Math.round((memoryInfo.usage / memoryInfo.total) * 100);
+  // const memoryInfo = process.memory();
+  // const usedPercent = Math.round((memoryInfo.usage / memoryInfo.total) * 100);
 
   // Affichez les informations sur l'utilisation de la mémoire dans la console
-  console.log(`RAM USAGE: ${usedPercent}%`);
+  // console.log(`RAM USAGE: ${usedPercent}%`);
 
   }
   // Gérez l'alarme
@@ -919,26 +917,20 @@ if (autoInvertedColors) {
     g.setBgColor(1, 1, 1); // Blanc
   }
 
+  // Mettez à jour l'affichage
+  g.flip();
+
   if (widgets) {
     Bangle.setUI({
   mode : "clock",
   remove : function() {
-    
   }});
-          Bangle.loadWidgets();
+   Bangle.loadWidgets();
   }
-
-  // Mettez à jour l'affichage
-  g.flip();
 
 }
 
-let btnPressed = false;
-
-setInterval(() => {
-  if (BTN1.read() && !btnPressed) {
-    btnPressed = true;
-    console.log('bruh');
+setWatch(function() {
     if (!isAlarmSounding) { // Vérifie si l'alarme ne sonne pas
       if (!widgets) {
         widgets = true;
@@ -950,10 +942,7 @@ setInterval(() => {
       Bangle.buzz(0);
       isAlarmSounding = false;
     }
-  } else if (!BTN1.read()) {
-    btnPressed = false;
-  }
-}, 10);
+}, BTN, { repeat: true, edge: "rising", debounce: 25 });
 
 // Mettez à jour continuellement l'affichage
 setInterval(update, 100); // Appel toutes les 100 ms pour une mise à jour plus fréquente des offsets
