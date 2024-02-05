@@ -944,6 +944,7 @@ setInterval(function() {
         if (!widgetsLoaded) {
           Bangle.loadWidgets();
           widgetsLoaded = true;
+          g.clear();
         }
         Bangle.drawWidgets();
     }else{
