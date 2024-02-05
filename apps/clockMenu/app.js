@@ -924,7 +924,14 @@ if (autoInvertedColors) {
 }
 
 setWatch(() => {
-  if (isAlarmSounding) {
+  if (!isAlarmSounding) { // Vérifie si l'alarme ne sonne pas
+    if (isMenuOpen || isPetMenuOpen) { // Si un des menus est ouvert, on le ferme
+      isMenuOpen = false;
+      isPetMenuOpen = false;
+    } else { // Sinon, on ouvre les widgets
+      Bangle.loadWidgets();
+    }
+  } else { // Si l'alarme sonne, arrêtez-la
     alarmEnabled = false;
     Bangle.buzz(0);
     isAlarmSounding = false;
