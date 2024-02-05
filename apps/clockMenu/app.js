@@ -946,7 +946,7 @@ setWatch(function() {
       Bangle.buzz(0);
       isAlarmSounding = false;
     }
-}, BTN, { repeat: true, edge: "rising", debounce: 25 });
+}, BTN, { repeat: true, edge: "rising"});
 
 // Mettez à jour continuellement l'affichage
 setInterval(update, 100); // Appel toutes les 100 ms pour une mise à jour plus fréquente des offsets
