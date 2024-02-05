@@ -837,11 +837,11 @@ function update() {
   }
 
   // Obtenez les informations sur la mémoire
-  //const memoryInfo = process.memory();
-  //const usedPercent = Math.round((memoryInfo.usage / memoryInfo.total) * 100);
+  const memoryInfo = process.memory();
+  const usedPercent = Math.round((memoryInfo.usage / memoryInfo.total) * 100);
 
   // Affichez les informations sur l'utilisation de la mémoire dans la console
-  //console.log(`RAM USAGE: ${usedPercent}%`);
+  console.log(`RAM USAGE: ${usedPercent}%`);
 
   }
   // Gérez l'alarme
@@ -933,19 +933,27 @@ if (autoInvertedColors) {
 
 }
 
-setWatch(() => {
-  if (!isAlarmSounding) { // Vérifie si l'alarme ne sonne pas
+let btnPressed = false;
+
+setInterval(() => {
+  if (BTN1.read() && !btnPressed) {
+    btnPressed = true;
+    console.log('bruh');
+    if (!isAlarmSounding) { // Vérifie si l'alarme ne sonne pas
       if (!widgets) {
-      widgets = true;
-      }else{
-      widgets = false;
+        widgets = true;
+      } else {
+        widgets = false;
       }
-  } else { // Si l'alarme sonne, arrêtez-la
-    alarmEnabled = false;
-    Bangle.buzz(0);
-    isAlarmSounding = false;
+    } else { // Si l'alarme sonne, arrêtez-la
+      alarmEnabled = false;
+      Bangle.buzz(0);
+      isAlarmSounding = false;
+    }
+  } else if (!BTN1.read()) {
+    btnPressed = false;
   }
-}, BTN1, { repeat: true, edge: "falling" });
+}, 10);
 
 // Mettez à jour continuellement l'affichage
 setInterval(update, 100); // Appel toutes les 100 ms pour une mise à jour plus fréquente des offsets
