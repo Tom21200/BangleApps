@@ -947,10 +947,6 @@ setInterval(function() {
           Bangle.setUI({
   mode : "clock",
   remove : function() {
-    // Called to unload all of the clock app
-    if (drawTimeout) clearTimeout(drawTimeout);
-    drawTimeout = undefined;
-    delete Graphics.prototype.setFontAnton;
   }});
         }
         Bangle.drawWidgets();
