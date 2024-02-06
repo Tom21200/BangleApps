@@ -757,22 +757,9 @@ Bangle.on('touch', function (button, xy) {
 
 
 
-Bangle.on('sleep', function() {
-  awake = false;
-});
-
 Bangle.on('lcdPower', function(on) {
-  if (!on) {
-    awake = false;
-  } else {
-    awake = true;
-  }
+  awake = on;
 });
-
-Bangle.on('wake', function() {
-  awake = true;
-});
-
 
 // Événement de toucher
 Bangle.on('touch', (button, xy) => {
