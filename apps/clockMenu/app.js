@@ -12,7 +12,6 @@ let autoInvertedColors = require("Storage").readJSON("autoInvertedColors.json", 
 let flicker = false;
 let isAlarmSounding = false;
 let showClock = true;
-let awake = true;
 
 let xOffset = 0;
 let yOffset = 50;
@@ -757,9 +756,6 @@ Bangle.on('touch', function (button, xy) {
 
 
 
-Bangle.on('lcdPower', function(on) {
-  awake = on;
-});
 
 // Événement de toucher
 Bangle.on('touch', (button, xy) => {
@@ -779,7 +775,7 @@ Bangle.on('touch', (button, xy) => {
 let widgets = false;
 function update() {
   if (!widgets) {
-  if (awake) {
+  if (Bangle.isLCDOn()) {
   xOffset += speed;
   yOffset += speed;
 
@@ -794,7 +790,7 @@ function update() {
   // Effacez l'écran avant de redessiner
   g.clear();
 
- if (awake) {
+ if (Bangle.isLCDOn()) {
   // Inversez les couleurs si invertedColors est true
   if (invertedColors) {
     g.setColor(1, 1, 1); // Blanc
@@ -822,7 +818,7 @@ function update() {
 
   drawTopBar();
 
-  if (awake) {
+  if (Bangle.isLCDOn()) {
   drawBottomButtons();
 }
 
