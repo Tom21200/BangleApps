@@ -164,6 +164,86 @@ for (const number of numbers) {
   g.setColor(0, 0, 0); // Revenez à la couleur noire par défaut
 }
 
+require("FontTeletext10x18Mode7").add(Graphics);
+
+function drawBigClock() {
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const seconds = now.getSeconds();
+  const offset = 150; // Décalage pour le centre de l'horloge
+
+  // Définir la taille de l'horloge
+  const clockWidth = g.getWidth() * 0.8; // Largeur de l'écran * 0.8
+  const clockHeight = g.getHeight() * 0.8; // Hauteur de l'écran * 0.8
+
+  // Centre de l'écran
+  const centerX = g.getWidth() / 2;
+  const centerY = g.getHeight() / 2;
+
+  // Dessinez l'horloge carrée centrée
+  g.drawRect(centerX - clockWidth / 2, centerY - clockHeight / 2, centerX + clockWidth / 2, centerY + clockHeight / 2);
+
+  // Ajoutez une ombre en bas à droite
+  g.fillRect(centerX - clockWidth / 2 + 5, centerY - clockHeight / 2 + 5, centerX + clockWidth / 2 + 5, centerY + clockHeight / 2 + 5);
+
+  // Effacez l'ancienne horloge
+  g.clearRect(centerX - clockWidth / 2 + 2, centerY - clockHeight / 2 + 2, centerX + clockWidth / 2 - 2, centerY + clockHeight / 2 - 2);
+
+  // Dessinez les chiffres 12, 3, 6 et 9 pour les heures
+  const fontSize = 24; // Ajustez la taille de la police
+  const numberRadius = Math.min(clockWidth, clockHeight) / 2 - fontSize / 2;
+
+  const numbers = [12, 3, 6, 9];
+
+  for (const number of numbers) {
+  const angle = ((number - 3) / 6) * Math.PI;
+  const x = centerX + Math.cos(angle) * numberRadius - fontSize / 4; // Réduisez la taille des chiffres
+  const y = centerY + Math.sin(angle) * numberRadius - fontSize / 4;
+
+  // Affichez le chiffre 12 avec une position x différente
+  if (number === 12) {
+    g.setFont("Teletext10x18Mode7");
+    g.drawString(number.toString(), x - 3, y + 0);
+  } else {
+    g.setFont("Teletext10x18Mode7");
+    g.drawString(number.toString(), x + 1, y + 0);
+  }
+
+  g.setFont("6x8", 2);
+}
+
+  // Dessinez les carrés entre les chiffres non présents
+  const squareNumbers = [1, 2, 4, 5, 7, 8, 10, 11];
+
+  for (const number of squareNumbers) {
+    const angle = ((number - 3) / 6) * Math.PI;
+    const x = centerX + Math.cos(angle) * numberRadius - fontSize / 4; // Réduisez la taille des carrés
+    const y = centerY + Math.sin(angle) * numberRadius - fontSize / 4;
+
+    // Affichez des carrés pour les chiffres non présents
+    g.fillRect(x + 6, y + 6, x + 10, y + 10); // Ajustez la taille des carrés
+  }
+
+  // Calculez les positions des aiguilles
+  const hoursAngle = Math.PI * 2 * (hours % 12) / 12 - Math.PI / 2;
+  const minutesAngle = Math.PI * 2 * minutes / 60 - Math.PI / 2;
+  const secondsAngle = Math.PI * 2 * seconds / 60 - Math.PI / 2;
+
+  const hoursLength = 40; // Ajustez la longueur des aiguilles
+  const minutesLength = 60;
+  const secondsLength = 70;
+
+  // Dessinez les aiguilles
+  g.drawLine(centerX, centerY, centerX + Math.cos(hoursAngle) * hoursLength, centerY + Math.sin(hoursAngle) * hoursLength);
+  g.drawLine(centerX, centerY, centerX + Math.cos(minutesAngle) * minutesLength, centerY + Math.sin(minutesAngle) * minutesLength);
+
+  // Dessinez les aiguilles des secondes
+  g.setColor(0, 0, 1); // Couleur bleue
+  g.drawLine(centerX, centerY, centerX + Math.cos(secondsAngle) * secondsLength, centerY + Math.sin(secondsAngle) * secondsLength);
+  g.setColor(0, 0, 0); // Revenez à la couleur noire par défaut
+}
+
 const birthdayDate = "3/7";
 
 function drawCalendar() {
@@ -802,6 +882,7 @@ function update() {
 }
 
   // Dessinez l'horloge
+  if (Bangle.isLocked() == false) {
   if (showClock) {
   drawClock();
   }
@@ -818,8 +899,9 @@ function update() {
 
   drawTopBar();
 
-  if (Bangle.isLocked() == false) {
   drawBottomButtons();
+}else{
+  drawBigClock();
 }
 
   // Dessinez le menu si ouvert
