@@ -761,9 +761,18 @@ Bangle.on('sleep', function() {
   awake = false;
 });
 
+Bangle.on('lcdPower', function(on) {
+  if (!on) {
+    awake = false;
+  } else {
+    awake = true;
+  }
+});
+
 Bangle.on('wake', function() {
   awake = true;
 });
+
 
 // Événement de toucher
 Bangle.on('touch', (button, xy) => {
@@ -794,10 +803,11 @@ function update() {
   if (yOffset > tileImg.height) {
     yOffset = 0;
   }
-
+}
   // Effacez l'écran avant de redessiner
   g.clear();
 
+ if (awake) {
   // Inversez les couleurs si invertedColors est true
   if (invertedColors) {
     g.setColor(1, 1, 1); // Blanc
@@ -806,6 +816,7 @@ function update() {
 
   // Dessinez le fond d'écran
   drawBackground();
+}
 
   // Dessinez l'horloge
   if (showClock) {
@@ -824,7 +835,9 @@ function update() {
 
   drawTopBar();
 
+  if (awake) {
   drawBottomButtons();
+}
 
   // Dessinez le menu si ouvert
   if (isMenuOpen) {
@@ -842,7 +855,6 @@ function update() {
   // Affichez les informations sur l'utilisation de la mémoire dans la console
   // console.log(`RAM USAGE: ${usedPercent}%`);
 
-  }
   // Gérez l'alarme
   if (alarmEnabled && !isAlarmSounding) {
     const now = new Date();
@@ -921,7 +933,6 @@ if (autoInvertedColors) {
   // Mettez à jour l'affichage
   g.flip();
 
-    
   }}
 
 setWatch(function() {
