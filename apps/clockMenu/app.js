@@ -775,7 +775,7 @@ Bangle.on('touch', (button, xy) => {
 let widgets = false;
 function update() {
   if (!widgets) {
-  if (!Bangle.isLocked()) {
+  if (Bangle.isLocked()) {
   xOffset += speed;
   yOffset += speed;
 
@@ -790,7 +790,7 @@ function update() {
   // Effacez l'écran avant de redessiner
   g.clear();
 
- if (!Bangle.isLocked()) {
+ if (Bangle.isLocked()) {
   // Inversez les couleurs si invertedColors est true
   if (invertedColors) {
     g.setColor(1, 1, 1); // Blanc
@@ -818,7 +818,7 @@ function update() {
 
   drawTopBar();
 
-  if (!Bangle.isLocked()) {
+  if (Bangle.isLocked()) {
   drawBottomButtons();
 }
 
