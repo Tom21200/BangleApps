@@ -1,7 +1,3 @@
-﻿// 68k Mac Finder desktop themed clock
-// by Giles Booth @blogmywiki
-// improvements by Peer David
-
 var img = require("heatshrink").decompress(atob("2GwgP4C6cf8AVTg/ACqcDwADBDCMBCoICCCqACEj8zAwXwmcYgEGswYHhxwBjEDGocwCoVgQxHwCoMzjwVBwPzngrCnlmDAsfNoIVBIQMBwZBEAAIVIjwVD8YVNIIc/FY9+CpcwCo9gCo0PQYUzmIVGo1is1ACokGNoaDC+PzhkAg+Gnl/aiIA/AD//AClVACmqACgr/Fd2vVqP+FYNUbKMNFYOsCqMOFa+t/f/35LC/AODK43uFYUCgGACAUB/IFDFZP6gArEsArTgFhz9w+ArRsOZzOYFaQVCFan4FaiFHFZuIFaeYQZbbVf5LbK1gVRhwrX15MGABX+K/4r/Ff4r/Ff4r/Ff4r/Ff4r/Ff4r/Ff4r/Ff4r/Ff4r/Ff4r/Ff4r/Ff4r/Ff4r/Ff4r/Ff4r/Ff4r/Ff4r/Ff4r/Ff4r/Fe+v/4AQ/wrBq4VR/orBAClVACgr/Ff4r/AAmr6or/q/6Fae/A="));
 
 var font = atob("f3/gMB/7+AAAACA///AAAAAAQcHhsZ+LhAAAgUhsPh38eAAADAoJCI///BAA8XhkMhn8eAAAPz/0Mhn4eAAAgEAh8f+HgAAAb3/kMh/7eAAAeH5hML/z8AAAAAADYbAAAAAA");
