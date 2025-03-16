@@ -23,7 +23,7 @@ function startAdvertising() {
 function updateAndSend() {
   g.clear(); // Clear écran
   count++; // Incrément compteur
-  const msg = "Sent (" + count + ")";
+  const msg = "S (" + count + ")";
   g.setFont("6x8", 4); // Police et taille
   const textWidth = g.stringWidth(msg);
   g.drawString(msg, (g.getWidth() - textWidth) / 2, (g.getHeight() - 32) / 2); // Centre
