@@ -1,7 +1,7 @@
 {
   "id": "spammer",
   "name": "Spammer",
-  "version": "0.01",
+  "version": "0.02",
   "description": "Spam lots of shit on iPhones",
   "type": "app",
   "supports": ["BANGLEJS","BANGLEJS2"],
