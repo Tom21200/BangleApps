@@ -1,39 +1,43 @@
-// Initialisation du compteur
-let counter = 0;
+let count = 0; // Compteur d'envoi
 
-// Paquet de données à envoyer
-var data = new Uint8Array([
+// Paquet à envoyer (représentation en tableau d'octets)
+const payload = [
   0x1e, 0xff, 0x4c, 0x00, 0x07, 0x19, 0x07, 0x02,
   0x20, 0x75, 0xaa, 0x30, 0x01, 0x00, 0x00, 0x45,
   0x12, 0x12, 0x12, 0x00, 0x00, 0x00, 0x00, 0x00,
-  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-]);
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+];
 
-// Efface l'écran au début
+// Fonction pour lancer la pub BLE
+function startAdvertising() {
+  NRF.setAdvertising({}, { // Données vides car on passe directement le manufacturer data
+    name: "AirPods 69",    // Nom personnalisé
+    manufacturer: 0x004C,  // Apple Manufacturer ID (0x004C)
+    manufacturerData: payload, // Nos données custom
+    connectable: false,   // Pour envoyer en "ADV_NONCONN_IND"
+    interval: 80          // 80 * 0.625ms = 50ms (rapide sans trop vider la batterie)
+  });
+}
+
+// Fonction pour afficher "Sent (X)" sur l'écran et gérer les cycles
+function updateAndSend() {
+  g.clear(); // Clear écran
+  count++; // Incrément compteur
+  const msg = "Sent (" + count + ")";
+  g.setFont("6x8", 4); // Police et taille
+  const textWidth = g.stringWidth(msg);
+  g.drawString(msg, (g.getWidth() - textWidth) / 2, (g.getHeight() - 32) / 2); // Centre
+  g.flip(); // Actualisation de l'écran
+
+  startAdvertising(); // Relancer la publicité BLE
+
+  // Arrêter la pub après un court instant (pour mimer l'ESP32 qui start/stop)
+  setTimeout(() => NRF.setAdvertising({}, { connectable: false }), 200); // Stop après 200ms
+}
+
+// Lancer la boucle toutes les secondes
+setInterval(updateAndSend, 1000);
+
+// Clear écran et lancer le premier cycle
 g.clear();
-
-// Fonction pour afficher le compteur
-function updateDisplay() {
-  g.clear(); // Efface pour mettre à jour
-  g.setFont("6x8", 4); // Police plus grande (tu peux ajuster)
-  let msg = "Sent (" + counter + ")";
-  let w = g.stringWidth(msg);
-  let h = 8 * 4; // Hauteur de la police (6x8, taille 4)
-  g.drawString(msg, (g.getWidth() - w) / 2, (g.getHeight() - h) / 2);
-  g.flip(); // Actualise l'écran
-}
-
-// Fonction pour envoyer les données et mettre à jour l'affichage
-function sendData() {
-  counter++; // Incrémente le compteur
-  NRF.setAdvertising({
-    0xFF: data.buffer
-  }, { interval: 100 }); // Envoie les données BLE
-  updateDisplay(); // Met à jour le texte affiché
-}
-
-// Lancement de l'envoi toutes les secondes
-setInterval(sendData, 1000); // Envoi et mise à jour toutes les 1000ms (1s)
-
-// Premier affichage immédiat
-updateDisplay();
+updateAndSend();
