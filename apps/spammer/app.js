@@ -1,3 +1,6 @@
+// Initialisation du compteur
+let counter = 0;
+
 // Paquet de données à envoyer
 var data = new Uint8Array([
   0x1e, 0xff, 0x4c, 0x00, 0x07, 0x19, 0x07, 0x02,
@@ -6,15 +9,31 @@ var data = new Uint8Array([
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 ]);
 
-// Fonction pour commencer l'annonce BLE
-function startAdvertising() {
-  NRF.setAdvertising({
-    0xFF: data.buffer // Utilisation d'un paquet "Manufacturer Specific Data"
-  }, { interval: 100 }); // Annonce toutes les 100ms (tu peux ajuster si besoin)
+// Efface l'écran au début
+g.clear();
+
+// Fonction pour afficher le compteur
+function updateDisplay() {
+  g.clear(); // Efface pour mettre à jour
+  g.setFont("6x8", 4); // Police plus grande (tu peux ajuster)
+  let msg = "Sent (" + counter + ")";
+  let w = g.stringWidth(msg);
+  let h = 8 * 4; // Hauteur de la police (6x8, taille 4)
+  g.drawString(msg, (g.getWidth() - w) / 2, (g.getHeight() - h) / 2);
+  g.flip(); // Actualise l'écran
 }
 
-// Démarrer l'envoi
-startAdvertising();
+// Fonction pour envoyer les données et mettre à jour l'affichage
+function sendData() {
+  counter++; // Incrémente le compteur
+  NRF.setAdvertising({
+    0xFF: data.buffer
+  }, { interval: 100 }); // Envoie les données BLE
+  updateDisplay(); // Met à jour le texte affiché
+}
 
-// Optionnel : arrêter l'envoi après un certain temps
-// setTimeout(() => NRF.setAdvertising({}, {interval:1000}), 60000); // Arrête après 1 minute
+// Lancement de l'envoi toutes les secondes
+setInterval(sendData, 1000); // Envoi et mise à jour toutes les 1000ms (1s)
+
+// Premier affichage immédiat
+updateDisplay();
