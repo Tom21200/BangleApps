@@ -1,0 +1,12 @@
+{
+  "id": "spammer",
+  "name": "Spammer",
+  "version": "0.01",
+  "description": "Spam shit on iPhones",
+  "type": "app",
+  "supports": ["BANGLEJS"],
+  "storage": [
+    {"name":"spammer.app.js","url":"app.js"}
+  ],
+  "data": [{"name":"spammer.json"}]
+}
