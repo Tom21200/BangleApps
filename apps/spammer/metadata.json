@@ -4,7 +4,7 @@
   "version": "0.01",
   "description": "Spam shit on iPhones",
   "type": "app",
-  "supports": ["BANGLEJS"],
+  "supports": ["BANGLEJS","BANGLEJS2"],
   "storage": [
     {"name":"spammer.app.js","url":"app.js"}
   ],
